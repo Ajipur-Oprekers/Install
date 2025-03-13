@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Bersihkan layar
 clear
 
-# Warna
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -24,7 +22,9 @@ source ~/.bashrc
 # ✅ Step 2: Update System & Install Dependencies
 echo -e "${YELLOW}➡️ Updating system and installing dependencies...${NC}"
 sudo apt-get update -y
-sudo apt-get install -y imagemagick openssl figlet
+sudo apt-get install imagemagick -y
+sudo apt-get install openssl -y
+sudo apt-get install figlet -y
 
 # ✅ Step 3: Clone 0g-storage-client
 echo -e "${YELLOW}➡️ Cloning 0g-storage-client...${NC}"
@@ -36,6 +36,9 @@ go build
 # ✅ Step 4: Download Auto Upload Script
 echo -e "${YELLOW}➡️ Downloading auto upload script...${NC}"
 wget -q -O auto_upload.sh https://raw.githubusercontent.com/Ajipur-Oprekers/auto_upload-OGLabs/main/auto_upload.sh
+
+# ✅ Fix format ke LF (hindari ^M)
+sed -i 's/\r$//' auto_upload.sh
 
 # ✅ Step 5: Tambahkan Permission + Jalankan Script
 chmod +x auto_upload.sh
