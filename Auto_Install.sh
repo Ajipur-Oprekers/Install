@@ -27,6 +27,11 @@ sudo apt-get install openssl -y
 sudo apt-get install figlet -y
 
 # ✅ Step 3: Clone 0g-storage-client
+if [ -d "$HOME/0g-storage-client" ]; then
+    echo -e "${RED}⚠️ Directory '0g-storage-client' already exists. Removing...${NC}"
+    rm -rf "$HOME/0g-storage-client"
+fi
+
 echo -e "${YELLOW}➡️ Cloning 0g-storage-client...${NC}"
 git clone -b v0.6.1 https://github.com/0glabs/0g-storage-client.git
 cd $HOME/0g-storage-client
