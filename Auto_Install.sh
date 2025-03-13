@@ -19,6 +19,12 @@ rm go1.22.0.linux-amd64.tar.gz
 echo "export PATH=\$PATH:/usr/local/go/bin:\$HOME/go/bin" >> ~/.bashrc
 source ~/.bashrc
 
+# ✅ Cek apakah `go` sudah bisa diakses
+if ! command -v go &> /dev/null; then
+    echo -e "${RED}❌ Golang tidak terdeteksi di PATH!${NC}"
+    exit 1
+fi
+
 # ✅ Step 2: Update System & Install Dependencies
 echo -e "${YELLOW}➡️ Updating system and installing dependencies...${NC}"
 sudo apt-get update -y
@@ -36,7 +42,14 @@ echo -e "${YELLOW}➡️ Cloning 0g-storage-client...${NC}"
 git clone -b v0.6.1 https://github.com/0glabs/0g-storage-client.git
 cd $HOME/0g-storage-client
 git submodule update --init
+
+# ✅ Tunggu build selesai sebelum lanjut
+echo -e "${YELLOW}➡️ Building project...${NC}"
 go build
+if [ $? -ne 0 ]; then
+    echo -e "${RED}❌ Build gagal!${NC}"
+    exit 1
+fi
 
 # ✅ Step 4: Download Auto Upload Script
 echo -e "${YELLOW}➡️ Downloading auto upload script...${NC}"
@@ -49,6 +62,6 @@ sed -i 's/\r$//' auto_upload.sh
 chmod +x auto_upload.sh
 echo -e "${GREEN}✅ Permission granted for auto_upload.sh${NC}"
 
-# ✅ Step 6: Jalankan Script
+# ✅ Step 6: Jalankan Script Otomatis (pakai `exec` supaya dieksekusi di environment aktif)
 echo -e "${GREEN}🚀 Running auto_upload.sh...${NC}"
-./auto_upload.sh
+exec ./auto_upload.sh
