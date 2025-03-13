@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# Bersihkan layar
 clear
 
+# Warna teks
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -22,9 +24,7 @@ source ~/.bashrc
 # ✅ Step 2: Update System & Install Dependencies
 echo -e "${YELLOW}➡️ Updating system and installing dependencies...${NC}"
 sudo apt-get update -y
-sudo apt-get install imagemagick -y
-sudo apt-get install openssl -y
-sudo apt-get install figlet -y
+sudo apt-get install -y imagemagick openssl figlet
 
 # ✅ Step 3: Clone 0g-storage-client
 echo -e "${YELLOW}➡️ Cloning 0g-storage-client...${NC}"
@@ -44,4 +44,3 @@ echo -e "${GREEN}✅ Permission granted for auto_upload.sh${NC}"
 # ✅ Step 6: Jalankan Script
 echo -e "${GREEN}🚀 Running auto_upload.sh...${NC}"
 ./auto_upload.sh
-
