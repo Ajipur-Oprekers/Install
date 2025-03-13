@@ -41,8 +41,12 @@ go build
 # ✅ Step 4: Download Auto Upload Script
 echo -e "${YELLOW}➡️ Downloading auto upload script...${NC}"
 wget -q -O auto_upload.sh https://raw.githubusercontent.com/Ajipur-Oprekers/auto_upload-OGLabs/main/auto_upload.sh
-dos2unix auto_upload.sh
 chmod +x auto_upload.sh
+
+# ✅ Fixing Windows-style carriage return
+echo -e "${YELLOW}➡️ Fixing file format issues...${NC}"
+dos2unix auto_upload.sh
+
 echo -e "${GREEN}✅ Permission granted for auto_upload.sh${NC}"
 
 # ✅ Step 5: Jalankan Script di dalam folder
