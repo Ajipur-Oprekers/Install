@@ -33,35 +33,28 @@ sudo apt-get install openssl -y
 sudo apt-get install figlet -y
 
 # ✅ Step 3: Clone 0g-storage-client
-if [ -d "$HOME/0g-storage-client" ]; then
-    echo -e "${RED}⚠️ Directory '0g-storage-client' already exists. Removing...${NC}"
-    rm -rf "$HOME/0g-storage-client"
-fi
-
 echo -e "${YELLOW}➡️ Cloning 0g-storage-client...${NC}"
-git clone -b v0.6.1 https://github.com/0glabs/0g-storage-client.git
-cd $HOME/0g-storage-client
-git submodule update --init
-
-# ✅ Tunggu build selesai sebelum lanjut
-echo -e "${YELLOW}➡️ Building project...${NC}"
-go build
-if [ $? -ne 0 ]; then
-    echo -e "${RED}❌ Build gagal!${NC}"
-    exit 1
+if [ -d "$HOME/0g-storage-client" ]; then
+    echo -e "${GREEN}✅ Folder already exists. Skipping clone.${NC}"
+else
+    git clone -b v0.6.1 https://github.com/0glabs/0g-storage-client.git
 fi
+
+# ✅ Masuk ke direktori 0g-storage-client
+cd $HOME/0g-storage-client || { echo "❌ Failed to enter directory"; exit 1; }
+
+git submodule update --init
+go build
 
 # ✅ Step 4: Download Auto Upload Script
 echo -e "${YELLOW}➡️ Downloading auto upload script...${NC}"
 wget -q -O auto_upload.sh https://raw.githubusercontent.com/Ajipur-Oprekers/auto_upload-OGLabs/main/auto_upload.sh
 
-# ✅ Fix format ke LF (hindari ^M)
-sed -i 's/\r$//' auto_upload.sh
-
 # ✅ Step 5: Tambahkan Permission + Jalankan Script
 chmod +x auto_upload.sh
 echo -e "${GREEN}✅ Permission granted for auto_upload.sh${NC}"
 
-# ✅ Step 6: Jalankan Script Otomatis (pakai `exec` supaya dieksekusi di environment aktif)
+# ✅ Step 6: Jalankan Script
 echo -e "${GREEN}🚀 Running auto_upload.sh...${NC}"
-exec ./auto_upload.sh
+./auto_upload.sh
+
